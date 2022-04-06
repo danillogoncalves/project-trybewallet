@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteExpense, receiveIndexOfEdit } from '../actions';
 
 class TableExpenses extends Component {
+  deleteExpenseClick = ({ target }) => {
+    const { expenses, getDeleteExpense } = this.props;
+    getDeleteExpense(expenses, target.value);
+  }
+
+  editExpenseClick = ({ target }) => {
+    const { expenses, getReceiveIndexOfEdit } = this.props;
+    expenses.forEach((expense, index) => {
+      if (expense.id === +target.value) {
+        getReceiveIndexOfEdit(index);
+      }
+    });
+  }
+
   render() {
-    const { expenses, editExpenseClick, deleteExpenseClick } = this.props;
+    const { expenses } = this.props;
     return (
       <table>
         <tbody>
@@ -37,7 +53,7 @@ class TableExpenses extends Component {
                     data-testid="edit-btn"
                     type="button"
                     value={ expense.id }
-                    onClick={ () => editExpenseClick(expense.id) }
+                    onClick={ this.editExpenseClick }
                   >
                     Editar
                   </button>
@@ -45,7 +61,7 @@ class TableExpenses extends Component {
                     data-testid="delete-btn"
                     type="button"
                     value={ expense.id }
-                    onClick={ () => deleteExpenseClick(expense.id) }
+                    onClick={ this.deleteExpenseClick }
                   >
                     Excluir
                   </button>
@@ -59,10 +75,19 @@ class TableExpenses extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getDeleteExpense: (...payload) => dispatch(deleteExpense(...payload)),
+  getReceiveIndexOfEdit: (index) => dispatch(receiveIndexOfEdit(index)),
+});
+
 TableExpenses.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.any).isRequired,
-  deleteExpenseClick: PropTypes.func.isRequired,
-  editExpenseClick: PropTypes.func.isRequired,
+  getDeleteExpense: PropTypes.func.isRequired,
+  getReceiveIndexOfEdit: PropTypes.func.isRequired,
 };
 
-export default TableExpenses;
+export default connect(mapStateToProps, mapDispatchToProps)(TableExpenses);

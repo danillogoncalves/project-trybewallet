@@ -4,6 +4,7 @@ export const RECEIVE_CODE_CURRERY_SUCCESS = 'RECEIVE_CODE_CURRERY_SUCCESS';
 export const RECEIVE_CODE_CURRERY_FAILURE = 'RECEIVE_CODE_CURRERY_FAILURE';
 export const RECEIVE_OBJECT_SUCCESS = 'RECEIVE_OBJECT_SUCCESS';
 export const RECEIVE_OBJECT_FAILURE = 'RECEIVE_OBJECT_FAILURE';
+export const RECEIVE_INDEX_OF_EDIT = 'RECEIVE_INDEX_OF_EDIT';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 
@@ -25,6 +26,10 @@ export const receiveObjectSuccess = (expense, exchangeRate) => ({
 
 export const receiveObjectFailure = (error) => ({
   type: RECEIVE_OBJECT_FAILURE, error,
+});
+
+export const receiveIndexOfEdit = (index) => ({
+  type: RECEIVE_INDEX_OF_EDIT, index,
 });
 
 export const deleteExpense = (expenses, deleteExpenseId) => ({

@@ -1,11 +1,13 @@
 import { RECEIVE_CODE_CURRERY_SUCCESS,
-  RECEIVE_OBJECT_SUCCESS, DELETE_EXPENSE, EDIT_EXPENSE } from '../actions';
+  RECEIVE_OBJECT_SUCCESS, DELETE_EXPENSE, EDIT_EXPENSE,
+  RECEIVE_INDEX_OF_EDIT } from '../actions';
 
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const INITIAL_STATE = {
   currencies: [],
   countedId: 0,
   expenses: [],
+  buttonEdit: -1,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -27,17 +29,20 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       countedId: newCountedId,
       expenses: [
-        ...state.expenses,
-        newExpenses,
+        ...state.expenses, newExpenses,
       ],
+    };
+  }
+  case RECEIVE_INDEX_OF_EDIT: {
+    return {
+      ...state, buttonEdit: action.index,
     };
   }
   case DELETE_EXPENSE: {
     const newExpenses = action.expenses
       .filter((expense) => +expense.id !== +action.deleteExpenseId);
     return {
-      ...state,
-      expenses: newExpenses,
+      ...state, expenses: newExpenses,
     };
   }
   case EDIT_EXPENSE: {
