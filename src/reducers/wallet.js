@@ -53,7 +53,7 @@ const wallet = (state = INITIAL_STATE, action) => {
     state.expenses[+action.editExpenseIndex].method = method;
     state.expenses[+action.editExpenseIndex].tag = tag;
     return {
-      ...state,
+      ...state, expenses: [...state.expenses],
     };
   }
   default:
